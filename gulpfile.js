@@ -6,9 +6,16 @@ let coptData = { fromPath: fromPath, toPath: toPath };
 
 var action = [
     { name: 'base', },
-    { name: 'vs', },
-    { name: 'copy', data: coptData },
+    // { name: 'vs', },
+    // { name: 'copy', data: coptData },
+    // {name:"set",}
 ];//command List 命令list
+
+const p = require('./bin/configOpr');
+console.log('>>>>>>> ', p.get('cms'));
+p.set('cms', 'cmrrrr');
+console.log('>>>>>>> ', p.get('cms'));
+
 
 let cl = [];
 

@@ -1,4 +1,4 @@
-const gulp = require('gulp');
+const gulp = require('./node_modules/gulp');
 
 let fromPath = 'C:\\Users\\t888333\\Desktop\\NodeBase\\res\\atlas\\hall\\2_lobby\\**.*';
 let toPath = 'C:\\Users\\t888333\\Desktop\\HTML';

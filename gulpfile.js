@@ -15,7 +15,7 @@ const replace = require('./node_modules/gulp-replace');
  *  */
 
 //将文件放在这个目录
-let basePath = 'C:\\Users\\Administrator\\Desktop\\gulp\\';
+let basePath = 'C:\\Users\\t888333\\Desktop\\gulp\\';
 let clientPath = basePath + 'client\\';
 let projectPath = basePath + 'project\\';
 let backupPath = basePath + 'backup\\';
@@ -31,14 +31,16 @@ let cl = [];
  * 
  *  */
 
-let taskName = 'copyBin';
+let actionName = 'copyBin';
 cl.push('copyBin');
-let data = { name: taskName, data: { fromPath: (clientPath + 'bin\\'), toPath: backupPath } };
+let copyData = { fromPath: (clientPath + 'bin\\'), toPath: backupPath };
+let data = { name: actionName, data: copyData };
 require('./bin/copy').run(gulp, data);
 
-taskName = 'copyScr';
-cl.push(taskName);
-require('./bin/copy').run(gulp, { name: taskName, data: { fromPath: (clientPath + 'src\\'), toPath: (backupPath + 'js\\') } });
+actionName = 'copyScr';
+let copyScrData = { fromPath: (clientPath + 'src\\'), toPath: (backupPath + 'js\\') };
+cl.push(actionName);
+require('./bin/copy').run(gulp, { name: actionName, data: copyScrData });
 
 
 /**
@@ -46,13 +48,47 @@ require('./bin/copy').run(gulp, { name: taskName, data: { fromPath: (clientPath 
  */
 
 
-// //修改文件start      GameInit.js  C:\JQL\client\src\utilities\GameInit.js
-// let actionName = 'fileOpr';
-// let gameinitPath = toPath + '\\'
-// let gameiniFile = 'GameInit.js'
-// let gameUrl = 'Laya.URL.basePath = \"http://192.168.0.191:pppp\";///'
+//修改文件start      GameInit.js  C:\JQL\client\src\utilities\GameInit.js
+actionName = 'fileOpr';
+let gameinitPath = backupPath + 'js\\utilities\\';
+let gameiniFile = 'GameInit.js';
+let fromData = 'Laya.URL.basePath';
+let toData = 'Laya.URL.basePath = \"http://192.168.0.191:www\";///'
+cl.push(actionName);
+let fileOprData = {
+    name: actionName,
+    data: {
+        replace: replace,
+        fromData: fromData,
+        toData: toData,
+        Path: gameinitPath,
+        fileName: gameiniFile
+    }
+}
+require('./bin/' + actionName).run(gulp, 'copyBin',fileOprData);
+
+
+/**
+ * 修改android文件 
+ * C:\Users\t888333\Desktop\gulp\client\src\updater\Version.js
+ */
+// actionName = 'versionOpr';
+// let versionPath = backupPath + 'src\\updater\\';
+// let versionFile = 'Version.js';
+// fromData = 'this._platform = utils.platform.TEST;';
+// toData = '//this._platform = utils.platform.TEST; \n this._platform = utils.platform.ANDROID;";///'
 // cl.push(actionName);
-// let task = require('./bin/' + actionName);
+// let versionData = {
+//     name: actionName,
+//     data: {
+//         replace: replace,
+//         fromData: fromData,
+//         toData: toData,
+//         Path: versionPath,
+//         fileName: versionFile
+//     }
+// }
+// require('./bin/' + actionName).run(gulp, versionData);
 
 
 // /**

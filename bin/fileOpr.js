@@ -1,13 +1,19 @@
 
 exports.run = (mGulp, mData) => {
     mGulp.task(mData.name, () => {
-        
-        mGulp.src([mData.data.Path+mData.data.name])
-        //修改文件    
-        .pipe(mData.data.replace(/Laya.URL.basePath/g,mData.data.url))
-        //保存文件   
-        .pipe(mGulp.dest(mData.data.Path));
+        console.log(
+            '\nname         : ', mData.name,
+            '\nmData.Path   : ', mData.data.Path,
+            '\nfromData     : ', mData.data.fromData,
+            '\ntoData       : ', mData.data.toData,
+            '\nfileName     : ', mData.data.fileName,
+            '\nfile         : ', mData.data.Path + mData.data.fileName);
+        mGulp.src([mData.data.Path + mData.data.fileName])
+            //修改文件    
+            .pipe(mData.data.replace(mData.data.fromData, mData.data.toData))
+            //保存文件   
+            .pipe(mGulp.dest(mData.data.Path));
 
-        console.log('\nfileOpr\n',mData.data.Path,mData.data.name, );
+        console.log('\nfileOpr :', mData.data.Path, mData.data.fileName);
     });
 }

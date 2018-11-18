@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-replace": "^1.0.0"
+    "gulp-replace": "^1.0.0",
+    "gulp-sftp": "^0.1.5"
   }
 }

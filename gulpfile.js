@@ -2,7 +2,7 @@ const gulp = require('./node_modules/gulp');
 // const git = require('./node_modules/gulp-git');
 // const gitIf = require('./node_modules/gulp-if'); 
 const replace = require('./node_modules/gulp-replace');
-
+const sftp = require('./node_modules/gulp-sftp');
 
 let action = 'base';
 let data = { name: action };
@@ -35,15 +35,22 @@ let backupPath = basePath + 'backup\\';
  * 
  *  */
 
-
-let runData = { fromPath: (clientPath + 'bin\\'), toPath: backupPath, berforce: action };
+let runData = {
+    berforce: action,
+    fromPath: clientPath + 'bin\\',
+    toPath: backupPath,
+};
 action = 'copyBin';
 require('./bin/copy').run(gulp, { name: action, data: runData, });
 
 
-runData = { fromPath: (clientPath + 'src\\'), toPath: (backupPath + 'js\\'), berforce: action };
+runData = {
+    berforce: action,
+    fromPath: clientPath + 'src\\',
+    toPath: backupPath + 'js\\',
+};
 action = 'copyScr';
-require('./bin/copy').run(gulp, { name: action, data: runData });
+require('./bin/copy').run(gulp, { name: action, data: runData, });
 
 
 /**
@@ -55,15 +62,15 @@ let gameiniFile = 'GameInit.js';
 let fromData = 'Laya.URL.basePath';
 let toData = 'Laya.URL.basePath = \"http://192.168.0.191:ddddddd\";///';
 runData = {
+    berforce: action,
     replace: replace,
     fromData: fromData,
     toData: toData,
     Path: gameinitPath,
     fileName: gameiniFile,
-    berforce: action
 };
 action = 'fileOpr';
-require('./bin/' + action).run(gulp, { name: action, data: runData });
+require('./bin/' + action).run(gulp, { name: action, data: runData, });
 
 
 /**
@@ -75,8 +82,8 @@ let versionFile = 'Version.js';
 fromData = 'this._initScripts = [];';
 toData = 'this._platform = utils.platform.ANDROID;\n        this._initScripts = [];';
 runData = {
-    replace: replace,
     berforce: action,
+    replace: replace,
     fromData: fromData,
     toData: toData,
     Path: versionPath,
@@ -93,10 +100,10 @@ require('./bin/fileOpr').run(gulp, { name: action, data: runData });
 versionPath = backupPath + 'js\\updater\\';
 versionFile = 'Version.js';
 fromData = 'utils.console_log';
-toData = 'utils.console_log = 0;///';
+toData = 'utils.console_log = 0;//';
 runData = {
-    replace: replace,
     berforce: action,
+    replace: replace,
     fromData: fromData,
     toData: toData,
     Path: versionPath,
@@ -113,6 +120,27 @@ require('./bin/fileOpr').run(gulp, { name: action, data: runData });
 //  */
 // task.run(gulp, { name: 'fileOpr', data: { replace: replace, Path: gameinitPath, name: gameiniFile, url: gameUrl } });
 // //修改文件end
+
+
+//复制
+runData = {
+    berforce: action,
+    fromPath: backupPath,
+    toPath: projectPath,
+};
+action = 'copyProject';
+require('./bin/copy').run(gulp, { name: action, data: runData });
+
+
+//上传文件
+let sftpData = require('./configFtp')['devTest']
+runData = {
+    berforce: action,
+    sftp: sftp,
+    sftp: sftpData,
+};
+action = 'sftp';
+require('./bin/sftp').run(gulp, { name: action, data: runData });
 
 
 // gulp.task("run", cl);action

@@ -137,7 +137,7 @@ let sftpData = require('./configFtp')['devTest']
 runData = {
     berforce: action,
     sftp: sftp,
-    sftp: sftpData,
+    sftpData: sftpData,
 };
 action = 'sftp';
 require('./bin/sftp').run(gulp, { name: action, data: runData });

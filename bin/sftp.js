@@ -3,15 +3,16 @@ module.exports.run = (mGulp, mData) => {
 
     console.log(
         '\nmData.name       : ', mData.name,
+        '\nberforce         : ', mData.data.berforce,
         '\nsftp             : ', mData.data.sftp,
         '\nsftpData         : ', mData.data.sftpData);
 
-    mGulp.task(mData.name, function () {
+    mGulp.task(mData.name, [mData.data.berforce], function () {
 
         console.log('\nsftp\n');
 
         return mGulp.src('/*')
-            .pipe(mData.data.sftp(mData.data.sftpData));            
+            .pipe(mData.data.sftp(mData.data.sftpData));
     });
 
 }

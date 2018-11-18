@@ -4,8 +4,8 @@ const gulp = require('./node_modules/gulp');
 const replace = require('./node_modules/gulp-replace');
 
 
-let actionName = 'base';
-let data = { name: actionName };
+let action = 'base';
+let data = { name: action };
 require('./bin/base').run(gulp, data);
 
 /**
@@ -36,23 +36,20 @@ let backupPath = basePath + 'backup\\';
  *  */
 
 
-let runData = { fromPath: (clientPath + 'bin\\'), toPath: backupPath, berforce: actionName };
-actionName = 'copyBin';
-require('./bin/copy').run(gulp, { name: actionName, data: runData, });
+let runData = { fromPath: (clientPath + 'bin\\'), toPath: backupPath, berforce: action };
+action = 'copyBin';
+require('./bin/copy').run(gulp, { name: action, data: runData, });
 
 
-runData = { fromPath: (clientPath + 'src\\'), toPath: (backupPath + 'js\\'), berforce: actionName };
-actionName = 'copyScr';
-require('./bin/copy').run(gulp, { name: actionName, data: runData });
+runData = { fromPath: (clientPath + 'src\\'), toPath: (backupPath + 'js\\'), berforce: action };
+action = 'copyScr';
+require('./bin/copy').run(gulp, { name: action, data: runData });
 
 
 /**
- * 修改文件
+ * 修改文件   
+ * C:\JQL\client\src\utilities\GameInit.js
  */
-
-
-//修改文件start      GameInit.js  C:\JQL\client\src\utilities\GameInit.js
-
 let gameinitPath = backupPath + 'js\\utilities\\';
 let gameiniFile = 'GameInit.js';
 let fromData = 'Laya.URL.basePath';
@@ -63,32 +60,51 @@ runData = {
     toData: toData,
     Path: gameinitPath,
     fileName: gameiniFile,
-    berforce: actionName
-}
-actionName = 'fileOpr';
-require('./bin/' + actionName).run(gulp, { name: actionName, data: runData });
+    berforce: action
+};
+action = 'fileOpr';
+require('./bin/' + action).run(gulp, { name: action, data: runData });
 
 
 /**
  * 修改android文件 
  * C:\Users\t888333\Desktop\gulp\client\src\updater\Version.js
  */
+let versionPath = backupPath + 'js\\updater\\';
+let versionFile = 'Version.js';
+fromData = 'this._initScripts = [];';
+toData = 'this._platform = utils.platform.ANDROID;\n        this._initScripts = [];';
+runData = {
+    replace: replace,
+    berforce: action,
+    fromData: fromData,
+    toData: toData,
+    Path: versionPath,
+    fileName: versionFile,
+};
+action = 'versionOpr';
+require('./bin/fileOpr').run(gulp, { name: action, data: runData });
 
-// let versionPath = backupPath + 'src\\updater\\';
-// let versionFile = 'Version.js';
-// fromData = 'this._platform = utils.platform.TEST;';
-// toData = '//this._platform = utils.platform.TEST; \n this._platform = utils.platform.ANDROID;";///';
 
-// runData = {
-//     replace: replace,
-//     fromData: fromData,
-//     toData: toData,
-//     Path: versionPath,
-//     fileName: actionName
-// }
+/**
+ * 修改log方式  
+ * C:\Users\t888333\Desktop\gulp\client\src\updater\Version.js
+ */
+versionPath = backupPath + 'js\\updater\\';
+versionFile = 'Version.js';
+fromData = 'utils.console_log';
+toData = 'utils.console_log = 0;///';
+runData = {
+    replace: replace,
+    berforce: action,
+    fromData: fromData,
+    toData: toData,
+    Path: versionPath,
+    fileName: versionFile,
+};
+action = 'versionLogOpr';
+require('./bin/fileOpr').run(gulp, { name: action, data: runData });
 
-// actionName = 'versionOpr';
-// require('./bin/' + actionName).run(gulp, { name: actionName, data: runData });
 
 // /**
 //  * @param replace 管道代替文件插件
@@ -99,5 +115,5 @@ require('./bin/' + actionName).run(gulp, { name: actionName, data: runData });
 // //修改文件end
 
 
-// gulp.task("run", cl);actionName
-gulp.task("run", [actionName]);
+// gulp.task("run", cl);action
+gulp.task("run", [action]);

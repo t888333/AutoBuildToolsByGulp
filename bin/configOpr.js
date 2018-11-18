@@ -1,18 +1,17 @@
-
 //设置配置
 let fs = require('fs');
-// let autoPath = '../config.json';
-// let writePath = './config.json';
+let autoPath = '../config.json'; 
 
 let set = (key, value, to ,from ) => {
      
-    let config = require(from);
+    let config = require(from || autoPath);
     config['' + key] = value;
-    fs.writeFileSync(to, JSON.stringify(config)); 
+    fs.writeFileSync(to || autoPath, JSON.stringify(config)); 
 }
 
-let get = (key,form) => { 
-    let config = require(form);
+let get = (key, from) => { 
+    
+    let config = require(from || autoPath);
     return config[key];
 }
 
